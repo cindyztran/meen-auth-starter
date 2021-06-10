@@ -46,9 +46,13 @@ const sessionsController = require('./controllers/sessions');
 //mount /sessions
 app.use('/sessions', sessionsController);
 
+//Index
 app.get('/', (req, res) => {
-    res.render('index.ejs');
+    res.render('index.ejs', {
+        currentUser: req.session.currentUser
+    });
 });
+
 
 
 //Listener
