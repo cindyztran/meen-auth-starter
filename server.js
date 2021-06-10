@@ -42,8 +42,13 @@ const userController = require('./controllers/users');
 app.use('/users', userController);
 
 const sessionsController = require('./controllers/sessions');
+
 //mount /sessions
 app.use('/sessions', sessionsController);
+
+app.get('/', (req, res) => {
+    res.render('index.ejs');
+});
 
 
 //Listener
