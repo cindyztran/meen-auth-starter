@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const mongoose = require('mongoose');
+//require express session
 const session = require('express-session');
 
 // Database Configuration
@@ -25,9 +26,25 @@ db.on('disconnected', () => console.log('mongo disconnected'));
 //Body parser middleware: give us access to req.body
 app.use(express.urlencoded({ extended: true}));
 
+//configure express sessions
+app.use(
+    session({
+        secret: process.env.SECRET,
+        resave: false,
+        saveUninitialized: false
+    })
+);
+
 //Routes / Controllers
 const userController = require('./controllers/users');
+
+//mount server routes to /users 
 app.use('/users', userController);
+
+const sessionsController = require('./controllers/sessions');
+//mount /sessions
+app.use('/sessions', sessionsController);
+
 
 //Listener
 const PORT = process.env.PORT;
