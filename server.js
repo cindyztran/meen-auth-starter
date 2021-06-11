@@ -1,11 +1,11 @@
+require('dotenv').config();
+
 //Dependencies
 const express = require('express');
 const app = express();
-require('dotenv').config();
 const mongoose = require('mongoose');
 //require express session
 const session = require('express-session');
-
 const methodOverride = require('method-override');
 
 // Database Configuration
@@ -33,7 +33,7 @@ app.use(
     session({
         secret: process.env.SECRET,
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
     })
 );
 
@@ -52,11 +52,23 @@ app.use('/sessions', sessionsController);
 
 //Index
 app.get('/', (req, res) => {
-    res.render('index.ejs', {
-        //include current user data
-        currentUser: req.session.currentUser
-    });
+    //if user is logged in: render dashboard view
+    if (req.session.currentUser) {
+        res.render('dashboard.ejs', {
+            currentUser: req.session.currentUser
+        });
+    } else {
+        //if user is logged out: render index view
+        res.render('index.ejs', {
+            //include current user data
+            currentUser: req.session.currentUser
+
+        });
+
+    }
 });
+
+
 
 
 
