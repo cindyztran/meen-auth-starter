@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 //require express session
 const session = require('express-session');
 
+const methodOverride = require('method-override');
+
 // Database Configuration
 mongoose.connect(process.env.DATABASE_URL, {
 	useNewUrlParser: true,
@@ -34,6 +36,8 @@ app.use(
         saveUninitialized: false
     })
 );
+
+app.use(methodOverride('_method'));
 
 //Routes / Controllers
 const userController = require('./controllers/users');
